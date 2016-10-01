@@ -76,7 +76,7 @@ function getInfo(callback){
                 "gearbox[3]" : 4,
                 "gearbox[4]" : 5,
                 "top" : 10,
-                "countpage" : 50,
+                "countpage" : 2,
                 "page" : 0
 
             }
@@ -101,6 +101,7 @@ function getInfo(callback){
                 res.on('end', function () {
                     saveResponce(response);
                     //processAll(response);
+                    getInfo(callback);
 
                 });    
             });
@@ -109,14 +110,14 @@ function getInfo(callback){
                 console.log('problem with request: ' + e.message);
             });
             req.end();        
-            getInfo(callback);
         })();
       }
       // getIds(data);
         var blurbs = getIds(data);
 
         for (var i = 0; i < blurbs.length; i++) {
-            console.log(parseInt(blurbs[i]));
+            // console.log(parseInt(blurbs[i]));
+            getAdvDetailes(parseInt(blurbs[i]));
             
         }
 
@@ -124,23 +125,44 @@ function getInfo(callback){
     
 }
 
-function getAdvDetailes(id){
 
+
+
+
+
+function getAdvDetailes(id){
+        var number1,number2,path;
+        number1 = Math.ceil(id/10000);
+        number2 = Math.ceil(id/100);
+        path = '/demo/bu/searchPage/v2/view/auto/' + number1 + '/' + number2 + '/' + id +'?lang_id=2';
+            
+            var options = {
+
+                host: 'auto.ria.com',
+                port: 443,
+                path: path,
+                method: 'GET'
+            };
+            var response = '';
+            // console.log(path);
             var http = require('https');
-            // console.log('STATUS: ');
             var req = http.request(options, function(res) {
 
-                // console.log('HEADERS: ' + JSON.stringify(res.headers));
                 res.setEncoding('utf8');
                 res.on('data', function (chunk) {
                     response += chunk;        
                 });
                 res.on('end', function () {
-                    saveResponce(response);
+                    console.log(response)
                     //processAll(response);
 
                 });    
-            });    
+            });  
+
+            req.on('error', function(e) {
+                console.log('problem with request: ' + e.message);
+            });
+            req.end();               
 
 }
 
