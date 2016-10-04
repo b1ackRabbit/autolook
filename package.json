@@ -1,0 +1,22 @@
+{
+  "name": "new-car-on-ria",
+  "version": "0.1.0",
+  "description": "Help to get new advertisement from site without visiting one.",
+  "main": "getList.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxym83/autolook.git"
+  },
+  "author": "Maxym Marchenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maxym83/autolook/issues"
+  },
+  "homepage": "https://github.com/maxym83/autolook#readme",
+  "dependencies": {
+    "sqlite3": "^3.1.4"
+  }
+}
