@@ -115,11 +115,36 @@ function getInfo(callback){
         
         var blurbs = getIds(data);
 
-        for (var i = 0; i < blurbs.length; i++) {
-            console.log('ggg');
-            getAdvDetailes(parseInt(blurbs[i]));
-            
+        var fs = require("fs");
+        var file = "auto_blobs.db";
+        var exists = fs.existsSync(file);
+
+        if(!exists) {
+          console.log("Creating DB file.");
+          fs.openSync(file, "w");
         }
+
+        var sqlite3 = require("sqlite3").verbose();
+        var db = new sqlite3.Database(file);
+
+        db.serialize(function() {
+            db.run("CREATE TABLE if not exists advs (\
+                id NTEGER PRIMARY KEY,\
+                adv_id INT \
+                )");
+
+            var stmt = db.prepare("INSERT INTO advs (adv_id) VALUES (?)");
+            for (var i = 0; i < blurbs.length; i++) {
+                stmt.run(parseInt(blurbs[i]));
+            }
+            stmt.finalize();
+            /*db.each("SELECT id,adv_id FROM advertiziments", function(err, row) {
+                console.log(row.id + ": " + row.adv_id);
+            });*/
+
+        });
+
+        db.close();  
 
     });  
     
